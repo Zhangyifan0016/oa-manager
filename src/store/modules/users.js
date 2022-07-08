@@ -1,12 +1,20 @@
 import UsersApi from '../../api/users'
+import { setItem, getItem } from '../../utils/storage'
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
+  state: {
+    token: getItem('token') || ''
+  },
+  mutations: {
+    setToken(state, token) {
+      state.token = token
+      setItem('token', token)
+    }
+  },
   actions: {
     async handleLogin({ commit }, payload) {
       const res = await UsersApi.login(payload)
-      console.log(res)
+      commit('setToken', res.token)
       return res
     }
   }

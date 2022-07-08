@@ -30,6 +30,7 @@
 import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 const store = useStore()
 const router = useRouter()
 const loginForm = reactive({
@@ -61,7 +62,13 @@ const handleLogin = () => {
     if (valid) {
       const res = await store.dispatch('users/handleLogin', loginForm)
       console.log(res)
-      router.push('/')
+      if (res.token) {
+        router.push('/')
+        ElMessage({
+          type: 'success',
+          message: '登陆成功'
+        })
+      }
     }
   })
 }

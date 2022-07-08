@@ -1,5 +1,7 @@
 // 引入axios
 import axios from 'axios'
+// 引入store
+import store from '../store'
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -8,6 +10,10 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   function (config) {
+    const token = store.getters.token
+    if (token) {
+      config.headers.Authorization = 'Bearer ' + token
+    }
     return config
   },
   function (error) {
