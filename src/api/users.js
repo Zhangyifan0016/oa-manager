@@ -1,8 +1,8 @@
-import request from '@/utils/request'
+import request from '../utils/request'
 
 // 用户登录
-const login = () => {
-  return request({ url: '/users/login', method: 'POST' })
+const login = (data) => {
+  return request({ url: '/users/login', method: 'POST', data })
 }
 
 // 用户列表

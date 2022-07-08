@@ -7,14 +7,14 @@
           <el-input
             prefix-icon="User"
             placeholder="请输入用户名"
-            v-model="loginForm.username"
+            v-model="loginForm.userName"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
             prefix-icon="View"
             placeholder="请输入密码"
-            v-model="loginForm.password"
+            v-model="loginForm.userPwd"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -28,24 +28,24 @@
 </template>
 <script setup>
 import { reactive, ref } from 'vue'
-// import { useStore } from 'vuex'
-// import { useRouter } from 'vue-router'
-// const store = useStore()
-// const router = useRouter()
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+const store = useStore()
+const router = useRouter()
 const loginForm = reactive({
-  username: '',
-  password: ''
+  userName: '',
+  userPwd: ''
 })
 // 校验规则
 const loginRules = reactive({
-  username: [
+  userName: [
     {
       required: true,
       trigger: 'blur',
       message: '用户名不能为空'
     }
   ],
-  password: [
+  userPwd: [
     {
       required: true,
       trigger: 'blur',
@@ -59,7 +59,9 @@ const handleLogin = () => {
   LoginRef.value.validate(async (valid) => {
     if (!valid) return
     if (valid) {
-      console.log('123')
+      const res = await store.dispatch('users/handleLogin', loginForm)
+      console.log(res)
+      router.push('/')
     }
   })
 }

@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000
+  timeout: 8000
 })
 // 请求拦截器
 instance.interceptors.request.use(
@@ -18,7 +18,10 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   function (response) {
-    return response
+    // 全局响应处理
+    if (response.data.code === 200) {
+      return response.data.data
+    }
   },
   function (error) {
     return Promise.reject(error)
