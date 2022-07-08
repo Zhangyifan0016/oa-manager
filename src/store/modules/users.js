@@ -3,19 +3,33 @@ import { setItem, getItem } from '../../utils/storage'
 export default {
   namespaced: true,
   state: {
-    token: getItem('token') || ''
+    manager: getItem('manager') || '',
+    permissionList: ''
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token
-      setItem('token', token)
+    setManager(state, manager) {
+      state.manager = manager
+      setItem('manager', manager)
+    },
+    setPermissionList(state, permissionList) {
+      state.permissionList = permissionList
     }
   },
   actions: {
     async handleLogin({ commit }, payload) {
       const res = await UsersApi.login(payload)
-      commit('setToken', res.token)
+      console.log(res)
+      commit('setManager', res)
       return res
+    },
+    async getPermissionList({ commit }) {
+      const res = await UsersApi.getPermissionList()
+      commit('setPermissionList', res)
+      return res
+    },
+    logout({ commit }) {
+      commit('setManager', '')
+      commit('setPermissionList', '')
     }
   }
 }

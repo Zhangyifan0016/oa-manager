@@ -10,7 +10,7 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   function (config) {
-    const token = store.getters.token
+    const token = store.getters.manager.token
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
