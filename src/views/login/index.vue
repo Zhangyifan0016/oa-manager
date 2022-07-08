@@ -2,32 +2,67 @@
   <div class="login">
     <el-card class="login-wrapper">
       <div class="title">火星</div>
-      <el-form :model="loginForm" :rules="rules" ref="form">
+      <el-form :model="loginForm" :rules="loginRules" ref="LoginRef">
         <el-form-item prop="username">
           <el-input
+            prefix-icon="User"
             placeholder="请输入用户名"
             v-model="loginForm.username"
           ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
+            prefix-icon="View"
             placeholder="请输入密码"
             v-model="loginForm.password"
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button class="submit" type="primary">登录</el-button>
+          <el-button class="submit" type="primary" @click="handleLogin"
+            >登录</el-button
+          >
         </el-form-item>
       </el-form>
     </el-card>
   </div>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+// import { useStore } from 'vuex'
+// import { useRouter } from 'vue-router'
+// const store = useStore()
+// const router = useRouter()
 const loginForm = reactive({
   username: '',
   password: ''
 })
+// 校验规则
+const loginRules = reactive({
+  username: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '用户名不能为空'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '密码不能为空'
+    },
+    { min: 6, max: 20, message: '密码不能小于6位或者大于20位', trigger: 'blur' }
+  ]
+})
+const LoginRef = ref(null)
+const handleLogin = () => {
+  LoginRef.value.validate(async (valid) => {
+    if (!valid) return
+    if (valid) {
+      console.log('123')
+    }
+  })
+}
 </script>
 <style scoped lang="scss">
 .login {
